@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -79,23 +79,7 @@ const UploadID = () => {
             mode="contained"
             color={Color.primary_400}
             onPress={() => {
-              Alert.alert(
-                "Confirmation",
-                "Are you sure you want to submit?",
-                [
-                  {
-                    text: "Cancel",
-                    style: "cancel",
-                  },
-                  {
-                    text: "Yes",
-                    onPress: () => {
-                      router.push("/screens/credentials/ReviewInformation");
-                    },
-                  },
-                ],
-                { cancelable: true }
-              );
+              router.push("/screens/credentials/FaceCapture");
             }}
           />
         </View>

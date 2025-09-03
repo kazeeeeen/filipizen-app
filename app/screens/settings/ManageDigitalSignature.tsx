@@ -138,22 +138,6 @@ const ManageDigitalSignature = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  {/*      <View
-                    style={{
-                      backgroundColor: "#DCFCE7",
-                      width: 30,
-                      height: 30,
-                      borderRadius: 40,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="certificate-outline"
-                      size={20}
-                      color="#3b6048ff"
-                    />
-                  </View> */}
                   <Text
                     style={{
                       fontFamily: font.intersemibold,
@@ -173,21 +157,29 @@ const ManageDigitalSignature = () => {
                         <TouchableOpacity
                           onPress={() => setIsUnlocked(!isUnlocked)}
                         >
-                          <MaterialCommunityIcons
-                            name={isUnlocked ? "lock-open-variant" : "lock"}
-                            size={20}
-                            color={isUnlocked ? "#16A34A" : "#666"}
-                          />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <MaterialCommunityIcons
+                              name={isUnlocked ? "lock-open-variant" : "lock"}
+                              size={20}
+                              color={isUnlocked ? "#16A34A" : "#666"}
+                            />
+
+                            <Text
+                              style={{
+                                marginLeft: 8,
+                                fontFamily: font.intermedium,
+                                color: Color.neutral_600,
+                              }}
+                            >
+                              {isUnlocked ? "Unlocked" : "Locked"}
+                            </Text>
+                          </View>
                         </TouchableOpacity>
-                        <Text
-                          style={{
-                            marginLeft: 8,
-                            fontFamily: font.intermedium,
-                            color: Color.neutral_600,
-                          }}
-                        >
-                          {isUnlocked ? "Unlocked" : "Locked"}
-                        </Text>
                       </View>
                     )}
                   </View>
@@ -202,18 +194,17 @@ const ManageDigitalSignature = () => {
                 >
                   {certificate}
                 </Text>
-                <View style={{ flexDirection: "row", gap: 12, marginTop: 12 }}>
+                <View style={{ marginTop: 12 }}>
                   {isUnlocked && (
-                    <Pressable
-                      onPress={() => handlePickAndInstall(true)}
-                      style={styles.replaceBtn}
-                    >
-                      <Text style={styles.replaceText}>Replace</Text>
-                    </Pressable>
+                    <>
+                      <Pressable
+                        onPress={handleRemove}
+                        style={styles.uninstallBtn}
+                      >
+                        <Text style={styles.uninstallText}>Uninstall</Text>
+                      </Pressable>
+                    </>
                   )}
-                  <Pressable onPress={handleRemove} style={styles.uninstallBtn}>
-                    <Text style={styles.uninstallText}>Uninstall</Text>
-                  </Pressable>
                 </View>
               </View>
               <Text style={styles.title}>Name</Text>
@@ -275,6 +266,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 14,
+    width: wp("20%"),
   },
   uninstallText: {
     fontSize: 14,

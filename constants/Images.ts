@@ -1,6 +1,6 @@
 const qr = require("../assets/images/qr.png");
 const onBoarding = require("../assets/images/onboarding.png");
-const logo = require("../assets/images/logo.png");
+const logo = require("../assets/images/splashscreen_logo.png");
 const nomessage = require("../assets/images/no-message.png");
 const nocredential = require("../assets/images/no-credential.png");
 const prc = require("../assets/images/prc.png");
