@@ -51,10 +51,14 @@ const MobileNoField: React.FC<MobileNoFieldProps> = ({
     setInputValue(text);
 
     const trimmed = text.replace(/\s+/g, "");
-    if (/^09\d{9}$/.test(trimmed) || /^\+639\d{9}$/.test(trimmed)) {
+    const errorMsg = validateMobileNumber(trimmed);
+
+    setMobileNoError(errorMsg);
+
+    if (!errorMsg) {
       set(name, trimmed);
     } else {
-      set(name, null);
+      set(name, text);
     }
   };
 

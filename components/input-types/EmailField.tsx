@@ -19,12 +19,9 @@ export interface EmailFieldProps {
 }
 const EmailField: React.FC<EmailFieldProps> = ({
   name,
-  placeholder,
   showError = false,
   errorMessage = "",
-  keyboardType,
   onFocus,
-  label,
   get,
   set,
   noSpace = false,

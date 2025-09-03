@@ -1,4 +1,5 @@
 import DateField from "@/components/input-types/DateField";
+import DropDown from "@/components/input-types/Dropdown";
 import EmailField from "@/components/input-types/EmailField";
 import MobileNoField from "@/components/input-types/MobileNoField";
 import TextField from "@/components/input-types/TextField";
@@ -15,6 +16,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const DynamicFormEntry = () => {
+  const [open, setOpen] = useState<{ [key: string]: boolean }>({});
+
   const { get, set } = useEntityState({
     personalinfo: {
       firstname: "",
@@ -185,14 +188,45 @@ const DynamicFormEntry = () => {
       case 2:
         return (
           <>
-            <TextField
-              label="Profession"
-              name="profession"
-              placeholder="Enter your profession"
-              errorMessage="Profession is required."
-              get={get}
-              set={set}
+            <DropDown
+              items={[
+                { label: "Architecture", value: "architecture" },
+                { label: "Accountancy", value: "accountancy" },
+                {
+                  label: "Professional Teaching",
+                  value: "professional_teaching",
+                },
+                {
+                  label: "Aeronautical Engineering",
+                  value: "aeronautical_engineering",
+                },
+                { label: "Civil Engineering", value: "civil_engineering" },
+                {
+                  label: "Electrical Engineering",
+                  value: "electrical_engineering",
+                },
+                {
+                  label: "Mechanical Engineering",
+                  value: "mechanical_engineering",
+                },
+                { label: "Dentistry", value: "dentistry" },
+                { label: "Pharmacy", value: "pharmacy" },
+                { label: "Psychology", value: "psychology" },
+              ]}
+              value={get("professioninfo.profession")}
+              setValue={(callback) => {
+                const newValue =
+                  typeof callback === "function"
+                    ? callback(get("professioninfo.profession"))
+                    : callback;
+                set("professioninfo.profession", newValue);
+              }}
+              placeholder="Select an option"
+              open={open["dropdown"]}
+              setOpen={(isOpen) => setOpen({ ...open, dropdown: isOpen })}
+              setItems={() => {}}
             />
+
             <TextField
               label="PRC License No."
               name="prcno"
@@ -214,22 +248,6 @@ const DynamicFormEntry = () => {
               name="expirydate"
               placeholder="Enter your expiry date"
               errorMessage="Expiry date is required."
-              get={get}
-              set={set}
-            />
-            <TextField
-              label="Exam Name"
-              name="examname"
-              placeholder="Enter your exam name"
-              errorMessage="Exam name is required."
-              get={get}
-              set={set}
-            />
-            <DateField
-              label="Date of Passing"
-              name="datepassing"
-              placeholder="Enter your date of passing"
-              errorMessage="Date of passing is required."
               get={get}
               set={set}
             />
