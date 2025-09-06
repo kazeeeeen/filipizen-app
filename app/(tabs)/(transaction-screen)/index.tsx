@@ -1,13 +1,5 @@
-import { Color } from "@/constants/Colors";
-import { font } from "@/constants/Fonts";
-import { Images } from "@/constants/Images";
-import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
+import { StyleSheet, View } from "react-native";
 
 const TransactionScreen = () => {
   return (
@@ -19,7 +11,7 @@ const TransactionScreen = () => {
         alignItems: "center",
       }}
     >
-      <Pressable
+      {/* <Pressable
         style={{
           backgroundColor: Color.white,
           borderColor: Color.neutral_100,
@@ -71,7 +63,7 @@ const TransactionScreen = () => {
             />
           </View>
         </View>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };

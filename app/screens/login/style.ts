@@ -1,6 +1,10 @@
 import { Color } from "@/constants/Colors";
 import { font } from "@/constants/Fonts";
 import { StyleSheet } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,8 +21,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   image: {
-    width: 550,
-    height: 150,
+    width: wp("50%"),
+    height: hp("20%"),
     marginTop: 20,
   },
   forgotmpin: {

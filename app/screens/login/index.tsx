@@ -127,7 +127,7 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={Images.logo} style={styles.image} resizeMode="cover" />
+      <Image source={Images.logo} style={styles.image} resizeMode="contain" />
       <Text style={styles.mpin}>Enter your MPIN</Text>
       <View style={styles.dialPadContainer}>
         {[...Array(pinLength).keys()].map((i) => {

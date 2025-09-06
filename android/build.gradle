@@ -12,6 +12,13 @@ buildscript {
   }
 }
 
+ext {
+  minSdkVersion = 26  // 🔥 update this from 24 → 26
+  compileSdkVersion = 35
+  targetSdkVersion = 34
+  ndkVersion = "26.1.10909125" // keep whatever your project is using
+}
+
 def reactNativeAndroidDir = new File(
   providers.exec {
     workingDir(rootDir)

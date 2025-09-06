@@ -12,6 +12,9 @@
       "supportsTablet": true
     },
     "android": {
+      "minSdkVersion": 26,
+      "compileSdkVersion": 35,
+      "targetSdkVersion": 34,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon-logo.png",
         "backgroundColor": "#ffffff"
@@ -30,11 +33,12 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splashscreen_logo.png",
-          "imageWidth": 300,
+          "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "react-native-vision-camera"
     ],
     "experiments": {
       "typedRoutes": true
