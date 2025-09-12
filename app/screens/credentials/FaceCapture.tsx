@@ -44,7 +44,7 @@ const PREVIEW_RECT = {
 /* -------------------- DETECTIONS -------------------- */
 const detections = {
   BLINK: { instruction: "Blink both eyes", minProbability: 0.3 },
-  TURN_HEAD_LEFT: { instruction: "Turn head left", maxAngle: -25 },
+  TURN_HEAD_LEFT: { instruction: "Turn head left", maxAngle: -45 },
   TURN_HEAD_RIGHT: { instruction: "Turn head right", minAngle: 15 },
   NOD: { instruction: "Nod your head", minDiff: 1.5 },
   SMILE: { instruction: "Smile", minProbability: 0.7 },
@@ -302,7 +302,7 @@ const FaceCapture = () => {
             {() => (
               <Camera
                 style={{
-                  width: PREVIEW_SIZE - 12, // subtract border width for inner camera
+                  width: PREVIEW_SIZE - 12,
                   height: PREVIEW_SIZE - 12,
                   borderRadius: (PREVIEW_SIZE - 14) / 2,
                   overflow: "hidden",
