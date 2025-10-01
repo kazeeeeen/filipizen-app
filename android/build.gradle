@@ -11,6 +11,13 @@ buildscript {
     classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
   }
 }
+  
+ext {
+  minSdkVersion = 26  // 
+  compileSdkVersion = 35
+  targetSdkVersion = 35
+  ndkVersion = "26.1.10909125" 
+}
 
 def reactNativeAndroidDir = new File(
   providers.exec {
