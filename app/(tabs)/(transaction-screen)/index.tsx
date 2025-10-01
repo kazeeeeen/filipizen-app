@@ -1,18 +1,22 @@
-import ScreenLayout from "@/components/screen-layout";
+/* import ScreenLayout from "@/components/screen-layout";
 import Description from "@/components/ui/description";
 import Header from "@/components/ui/header";
+import { Color } from "@/constants/Colors";
+import { font } from "@/constants/Fonts";
 import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-
-import { Color } from "@/constants/Colors";
-import { font } from "@/constants/Fonts";
+import { runOnJS } from "react-native-reanimated";
 import {
   Camera,
   useCameraDevice,
   useFrameProcessor,
 } from "react-native-vision-camera";
-import { useFaceDetector } from "react-native-vision-camera-face-detector";
+import {
+  Face,
+  useFaceDetector,
+} from "react-native-vision-camera-face-detector";
+import { contains, Rect } from "./contain";
 
 const { width: windowWidth } = Dimensions.get("window");
 
@@ -24,21 +28,28 @@ const PREVIEW_RECT = {
   height: PREVIEW_SIZE,
 };
 
+interface FaceDetection {
+  rollAngle: number;
+  yawAngle: number;
+  smilingProbability: number;
+  leftEyeOpenProbability: number;
+  rightEyeOpenProbability: number;
+  bounds: {
+    origin: {
+      x: number;
+      y: number;
+    };
+    size: {
+      width: number;
+      height: number;
+    };
+  };
+}
+
 const TransactionScreen = () => {
   const [hasPermission, setHasPermission] = React.useState(false);
 
   const device = useCameraDevice("front");
-
-  const { detectFaces, stopListeners } = useFaceDetector(faceDetectionOptions);
-
-  const frameProcessor = useFrameProcessor(
-    (frame) => {
-      "worklet";
-      const faces = detectFaces(frame);
-      handleDetectedFaces(faces);
-    },
-    [handleDetectedFaces]
-  );
 
   useEffect(() => {
     const requestPermissions = async () => {
@@ -47,10 +58,91 @@ const TransactionScreen = () => {
     };
     requestPermissions();
   }, []);
+
+  const onFacesDetected = (result: FaceDetectionResult) => {
+    // 1. There is only a single face in the detection results.
+    if (result.faces.length !== 1) {
+      dispatch({ type: "FACE_DETECTED", payload: "no" });
+      return;
+    }
+
+    const faceRect: Rect = {
+      minX: face.bounds.origin.x,
+      minY: face.bounds.origin.y,
+      width: face.bounds.size.width,
+      height: face.bounds.size.height,
+    };
+    // 2. The face is fully contained within the camera preview.
+    const edgeOffset = 50;
+    const faceRectSmaller: Rect = {
+      width: faceRect.width - edgeOffset,
+      height: faceRect.height - edgeOffset,
+      minY: faceRect.minY + edgeOffset / 2,
+      minX: faceRect.minX + edgeOffset / 2,
+    };
+    const previewContainsFace = contains({
+      outside: PREVIEW_RECT,
+      inside: faceRectSmaller,
+    });
+    if (!previewContainsFace) {
+      return;
+    }
+    // 3. The face is not as big as the camera preview.
+    const faceMaxSize = PREVIEW_SIZE - 90;
+    if (faceRect.width >= faceMaxSize && faceRect.height >= faceMaxSize) {
+      return;
+    }
+    // TODO: Process results at this point.
+  };
+
+  //@ts-ignore
+  const face: FaceDetection = result.faces[0];
+  const faceRect: Rect = {
+    minX: face.bounds.origin.x,
+    minY: face.bounds.origin.y,
+    width: face.bounds.size.width,
+    height: face.bounds.size.height,
+  };
+
+  const { detectFaces } = useFaceDetector({
+    performanceMode: "fast", // like Mode.fast
+    classificationMode: "all", // like Classifications.all
+    landmarkMode: "none", // like Landmarks.none
+    trackingEnabled: false, // like tracking: false
+    minFaceSize: 0.15, // optional
+  });
+
+  /*   const onFacesDetected = (faces: Face[]) => {
+    console.log("Detected faces:", faces);
+  };
+
+  const frameProcessor = useFrameProcessor(
+    (frame) => {
+      "worklet";
+      const faces = detectFaces(frame);
+      if (faces.length > 0) runOnJS(onFacesDetected)(faces);
+    },
+    [detectFaces]
+  );
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
-  }
-  return (
+  } */
+
+/*   const onFacesDetected = (faces: Face[]) => {
+    console.log("Detected faces:", faces);
+  };
+
+  const frameProcessor = useFrameProcessor(
+    (frame) => {
+      "worklet";
+      const faces = detectFaces(frame);
+      if (faces.length > 0) runOnJS(onFacesDetected)(faces);
+    },
+    [detectFaces]
+  );
+ */
+/*  return (
     <ScreenLayout
       header={
         <>
@@ -76,6 +168,8 @@ const TransactionScreen = () => {
                 borderRadius: (PREVIEW_SIZE - 14) / 2,
                 overflow: "hidden",
               }}
+              frameProcessor={frameProcessor}
+              frameProcessorFps={8}
               device={device}
               isActive={true}
             />
@@ -88,9 +182,9 @@ const TransactionScreen = () => {
       </View>
     </ScreenLayout>
   );
-};
+}; */
 
-export default TransactionScreen;
+/* xport default TransactionScreen;
 
 const styles = StyleSheet.create({
   mask: {
@@ -124,3 +218,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+ */
